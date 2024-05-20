@@ -9,7 +9,7 @@ const HomePage = () => {
     <>
       <Metadata title="Home" description="Home page" />
 
-      <div className="flex items-start space-x-8">
+      <div className="flex items-start space-x-16">
         <div className="w-1/3">
           <SimpleForm />
         </div>
