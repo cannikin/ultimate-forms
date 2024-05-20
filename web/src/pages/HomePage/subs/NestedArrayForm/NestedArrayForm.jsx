@@ -13,13 +13,13 @@ const doctor = {
   patients: [
     {
       className: 'Patient',
-      id: 1,
+      id: 123,
       name: 'Jane Doe',
       dob: '01/01/1980',
     },
     {
       className: 'Patient',
-      id: 2,
+      id: 456,
       name: 'Jeff Generic',
       dob: '01/01/1970',
     },
@@ -40,9 +40,14 @@ const NestedArrayForm = () => {
         <Label name="specialty" />
         <TextField name="specialty" />
 
+        <h2>Patients</h2>
         {doctor.patients.map((patient, index) => (
-          <FieldsFor model={patient} index={patient.id} key={index}>
-            <h2>Patients</h2>
+          <FieldsFor
+            model={patient}
+            index={patient.id}
+            key={index}
+            className="fields"
+          >
             <Label name="name" />
             <TextField name="name" />
 
