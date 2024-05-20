@@ -1,3 +1,6 @@
+import { Link, routes } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
+
 import {
   FieldsFor,
   FormFor,
@@ -17,9 +20,11 @@ const doctor = {
   },
 }
 
-const NestedForm = () => {
+const NestedPage = () => {
   return (
-    <div>
+    <>
+      <Metadata title="Nested" description="Nested page" />
+
       <h1>Nested Form</h1>
 
       {/* try `remote={false}` */}
@@ -42,8 +47,8 @@ const NestedForm = () => {
 
         <Submit>Save</Submit>
       </FormFor>
-    </div>
+    </>
   )
 }
 
-export default NestedForm
+export default NestedPage

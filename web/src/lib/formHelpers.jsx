@@ -1,13 +1,14 @@
-import { createContext, useContext } from 'react'
+import { createContext, createElement, Fragment, useContext } from 'react'
 
 import { camelCase, titleCase } from 'change-case-all'
+import createFragment from 'react-addons-create-fragment'
 
 const FormContext = createContext()
 
 // converts the model chain and attribute name to an input element name prop
 export const modelAndAttributeToNameProp = (modelChain, name) => {
   const modelNames = modelChain.map((m) => {
-    if (m.className) {
+    if (typeof m === 'object') {
       return m.className
     } else {
       return m
@@ -59,24 +60,21 @@ export const FormFor = ({ model: formModel, remote = true, children }) => {
   )
 }
 
-export const FieldsFor = ({
-  model: fieldsModel,
-  index,
-  children,
-  className,
-}) => {
+export const FieldsFor = ({ model: fieldsModel, index, children, ...rest }) => {
   const { model } = useContext(FormContext)
   const modelStack = [...model, fieldsModel]
   if (index) {
     modelStack.push(index)
   }
+  const { as, className, ...elementProps } = rest
+  const elementType = as ? as : className ? 'div' : Fragment
 
-  return (
-    <div className={className}>
-      <FormContext.Provider value={{ model: modelStack }}>
-        {children}
-      </FormContext.Provider>
-    </div>
+  return createElement(
+    elementType,
+    { ...elementProps, className },
+    <FormContext.Provider value={{ model: modelStack }}>
+      {children}
+    </FormContext.Provider>
   )
 }
 

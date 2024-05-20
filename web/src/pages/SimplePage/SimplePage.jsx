@@ -1,3 +1,6 @@
+import { Link, routes } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
+
 import { FormFor, Label, TextField, Submit } from 'src/lib/formHelpers'
 
 const doctor = {
@@ -6,9 +9,11 @@ const doctor = {
   specialty: 'Cardiology',
 }
 
-const SimpleForm = () => {
+const SimplePage = () => {
   return (
-    <div>
+    <>
+      <Metadata title="Simple" description="Simple page" />
+
       <h1>Simple Form</h1>
 
       <FormFor className="form" model={doctor}>
@@ -20,8 +25,8 @@ const SimpleForm = () => {
 
         <Submit>Save</Submit>
       </FormFor>
-    </div>
+    </>
   )
 }
 
-export default SimpleForm
+export default SimplePage

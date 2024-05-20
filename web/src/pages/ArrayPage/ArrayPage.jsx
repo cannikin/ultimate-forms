@@ -1,3 +1,6 @@
+import { Link, routes } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
+
 import {
   FieldsFor,
   FormFor,
@@ -26,9 +29,11 @@ const doctor = {
   ],
 }
 
-const NestedArrayForm = () => {
+const ArrayPage = () => {
   return (
-    <div>
+    <>
+      <Metadata title="Array" description="Array page" />
+
       <h1>Nested Array Form</h1>
 
       {/* try `remote={false}` */}
@@ -58,8 +63,8 @@ const NestedArrayForm = () => {
 
         <Submit>Save</Submit>
       </FormFor>
-    </div>
+    </>
   )
 }
 
-export default NestedArrayForm
+export default ArrayPage
