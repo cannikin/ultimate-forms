@@ -1,19 +1,40 @@
+// Converts a x-www-form-urlencoded string into a nested object:
+//   doctor[name][first]=John&doctor[name][last]=Doe&doctor[specialty]=Cardiology
+// to:
+//   { doctor: { name: { first: 'John', last: 'Doe' }, specialty: 'Cardiology' } }
+
+function toParams(urlEncodedString) {
+  const searchParams = Object.fromEntries(
+    new URLSearchParams(urlEncodedString).entries()
+  )
+
+  const result = {}
+
+  for (let key in searchParams) {
+    const nestedKeys = key.split('[').map((k) => k.replace(']', ''))
+    let currentObject = result
+
+    nestedKeys.forEach((key, i) => {
+      // don't do anything with the last key
+      if (i === nestedKeys.length - 1) return
+
+      if (!currentObject[key]) {
+        currentObject[key] = {}
+      }
+      currentObject = currentObject[key]
+    })
+
+    currentObject[nestedKeys[nestedKeys.length - 1]] = searchParams[key]
+  }
+
+  return result
+}
+
 export const handler = async (event, _context) => {
-  const params = {}
+  const params = toParams(event.body)
 
-  new URLSearchParams(event.body).forEach((value, key) => {
-    // Extract the model name from the key
-    const model = key.match(/^(.*?)\[/)[1]
-    if (!params[model]) {
-      params[model] = {}
-    }
-
-    // Extract the attribute(s) from the key, arbitrarily deep
-    const attribute = key.match(/\[(.*?)\]/)[1]
-    console.info(key, attribute)
-
-    params[model][attribute] = value
-  })
+  // const doctor = Doctor.find(123)
+  // doctor.update(params)
 
   return {
     statusCode: 200,

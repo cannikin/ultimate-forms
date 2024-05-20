@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply m-8;
+}
+
+h1 {
+  @apply text-4xl font-bold mt-8;
+}
+
+h2 {
+  @apply text-2xl font-bold mt-8;
+}
+
+form {
+  label {
+    @apply block mt-4 w-full;
+  }
+
+  input[type=text] {
+    @apply block border border-gray-400 px-2 py-1 rounded-sm w-full;
+  }
+
+  button {
+    @apply bg-blue-500 text-white py-2 px-4 rounded mt-4;
+  }
+}

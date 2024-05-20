@@ -2,7 +2,7 @@
 CREATE TABLE "Doctor" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
-    "speciality" TEXT NOT NULL
+    "specialty" TEXT NOT NULL
 );
 
 -- CreateTable

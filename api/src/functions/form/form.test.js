@@ -2,28 +2,78 @@ import { mockHttpEvent, mockContext } from '@redwoodjs/testing/api'
 
 import { handler } from './form'
 
-//   Improve this test with help from the Redwood Testing Doc:
-//    https://redwoodjs.com/docs/testing#testing-functions
-
 describe('form function', () => {
-  it('Should respond with 200', async () => {
+  it('parses simple 1-level attributes into nested params', async () => {
     const httpEvent = mockHttpEvent({
-      queryStringParameters: {
-        id: '42', // Add parameters here
-      },
+      body: encodeURI(`doctor[name]=Dr. John Doe&doctor[specialty]=Cardiology`),
     })
 
     const response = await handler(httpEvent, mockContext())
-    const { data } = JSON.parse(response.body)
+    const data = JSON.parse(response.body)
 
     expect(response.statusCode).toBe(200)
-    expect(data).toBe('form function')
+    expect(data).toEqual({
+      params: { doctor: { name: 'Dr. John Doe', specialty: 'Cardiology' } },
+    })
   })
 
-  // You can also use scenarios to test your api functions
-  // See guide here: https://redwoodjs.com/docs/testing#scenarios
-  //
-  // scenario('Scenario test', async () => {
-  //
-  // })
+  it('parses multiple top-level keys', async () => {
+    const httpEvent = mockHttpEvent({
+      body: encodeURI(`doctor[name]=Dr. John Doe&patient[name]=Jane Doe`),
+    })
+
+    const response = await handler(httpEvent, mockContext())
+    const data = JSON.parse(response.body)
+
+    expect(response.statusCode).toBe(200)
+    expect(data).toEqual({
+      params: {
+        doctor: { name: 'Dr. John Doe' },
+        patient: { name: 'Jane Doe' },
+      },
+    })
+  })
+
+  it('parses 2-level attributes into nested params', async () => {
+    const httpEvent = mockHttpEvent({
+      body: encodeURI(
+        `doctor[name][first]=John&doctor[name][last]=Doe&doctor[specialty]=Cardiology`
+      ),
+    })
+
+    const response = await handler(httpEvent, mockContext())
+    const data = JSON.parse(response.body)
+
+    expect(response.statusCode).toBe(200)
+    expect(data).toEqual({
+      params: {
+        doctor: {
+          name: { first: 'John', last: 'Doe' },
+          specialty: 'Cardiology',
+        },
+      },
+    })
+  })
+
+  it('parses 3-level attributes into nested params', async () => {
+    const httpEvent = mockHttpEvent({
+      body: encodeURI(
+        `doctor[name][first]=John&doctor[name][last]=Doe&doctor[location][home][city]=San Diego&doctor[specialty]=Cardiology`
+      ),
+    })
+
+    const response = await handler(httpEvent, mockContext())
+    const data = JSON.parse(response.body)
+
+    expect(response.statusCode).toBe(200)
+    expect(data).toEqual({
+      params: {
+        doctor: {
+          name: { first: 'John', last: 'Doe' },
+          location: { home: { city: 'San Diego' } },
+          specialty: 'Cardiology',
+        },
+      },
+    })
+  })
 })
