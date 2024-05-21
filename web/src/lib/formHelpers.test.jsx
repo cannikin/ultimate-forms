@@ -1,7 +1,4 @@
-import {
-  modelAndAttributeToNameProp,
-  modelAndAttributeValue,
-} from './formHelpers'
+import { modelAndAttributeName, modelAndAttributeValue } from './formHelpers'
 
 describe('modelAndAttributeToNameProp', () => {
   it('converts a model and attribute to a name prop', () => {
@@ -11,7 +8,7 @@ describe('modelAndAttributeToNameProp', () => {
       specialty: 'Cardiology',
     }
 
-    expect(modelAndAttributeToNameProp([data], 'name')).toEqual('doctor[name]')
+    expect(modelAndAttributeName([data], 'name')).toEqual('doctor[name]')
   })
 
   it('converts a model and attribute to a name prop with a 2-level model', () => {
@@ -26,7 +23,7 @@ describe('modelAndAttributeToNameProp', () => {
       },
     }
 
-    expect(modelAndAttributeToNameProp([data, data.patient], 'name')).toEqual(
+    expect(modelAndAttributeName([data, data.patient], 'name')).toEqual(
       'doctor[patient][name]'
     )
   })
@@ -47,7 +44,7 @@ describe('modelAndAttributeToNameProp', () => {
     }
 
     expect(
-      modelAndAttributeToNameProp([data, data.patients[0], 123], 'name')
+      modelAndAttributeName([data, data.patients[0], 123], 'name')
     ).toEqual('doctor[patient][123][name]')
   })
 })

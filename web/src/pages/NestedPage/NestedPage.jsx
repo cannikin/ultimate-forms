@@ -1,9 +1,9 @@
-import { Link, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 import {
   FieldsFor,
   FormFor,
+  HiddenField,
   Label,
   TextField,
   Submit,
@@ -11,6 +11,7 @@ import {
 
 const doctor = {
   className: 'Doctor',
+  id: 10101,
   name: 'Dr. John Doe',
   specialty: 'Cardiology',
   patient: {
@@ -28,8 +29,14 @@ const NestedPage = () => {
       <h1>Nested Form</h1>
 
       {/* try `remote={false}` */}
-      <FormFor className="form" model={doctor}>
+      <FormFor
+        action="/.redwood/functions/form"
+        className="form"
+        model={doctor}
+      >
         <h2>Doctor</h2>
+        <HiddenField name="id" />
+
         <Label name="name" />
         <TextField name="name" />
 

@@ -3,7 +3,6 @@ import { Metadata } from '@redwoodjs/web'
 import {
   FieldsFor,
   FormFor,
-  HiddenField,
   Label,
   TextField,
   Submit,
@@ -20,12 +19,33 @@ const doctor = {
       id: 123,
       name: 'Jane Doe',
       dob: '01/01/1980',
+      appointments: [
+        {
+          className: 'Appointment',
+          location: 'San Diego, CA',
+          date: '01/01/2021',
+        },
+      ],
     },
     {
       className: 'Patient',
       id: 456,
       name: 'Jeff Generic',
       dob: '01/01/1970',
+      appointments: [
+        {
+          className: 'Appointment',
+          id: 789,
+          location: 'San Diego, CA',
+          date: '01/01/2021',
+        },
+        {
+          className: 'Appointment',
+          id: 112,
+          location: 'San Francisco, CA',
+          date: '01/02/2021',
+        },
+      ],
     },
   ],
 }
@@ -44,8 +64,6 @@ const ArrayPage = () => {
         model={doctor}
       >
         <h2>Doctor</h2>
-        <HiddenField name="id" />
-
         <Label name="name" />
         <TextField name="name" />
 
@@ -65,6 +83,21 @@ const ArrayPage = () => {
 
             <Label name="dob" />
             <TextField name="dob" />
+
+            {patient.appointments.map((appointment, index) => (
+              <FieldsFor
+                model={appointment}
+                index={appointment.id}
+                key={index}
+                className="fields ml-8"
+              >
+                <Label name="location" label="Appointment Location" />
+                <TextField name="location" />
+
+                <Label name="date" label="Appointment Date" />
+                <TextField name="date" />
+              </FieldsFor>
+            ))}
           </FieldsFor>
         ))}
 

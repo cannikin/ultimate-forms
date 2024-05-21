@@ -1,10 +1,16 @@
-import { Link, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
-import { FormFor, Label, TextField, Submit } from 'src/lib/formHelpers'
+import {
+  FormFor,
+  HiddenField,
+  Label,
+  TextField,
+  Submit,
+} from 'src/lib/formHelpers'
 
 const doctor = {
   className: 'Doctor',
+  id: 10101,
   name: 'Dr. John Doe',
   specialty: 'Cardiology',
 }
@@ -16,7 +22,14 @@ const SimplePage = () => {
 
       <h1>Simple Form</h1>
 
-      <FormFor className="form" model={doctor}>
+      <FormFor
+        action="/.redwood/functions/form"
+        className="form"
+        model={doctor}
+        // remote={false}
+      >
+        <HiddenField name="id" />
+
         <Label name="name" />
         <TextField name="name" />
 
