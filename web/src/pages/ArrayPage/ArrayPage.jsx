@@ -1,8 +1,10 @@
+import jsonFormat from 'json-format'
+
 import { Metadata } from '@redwoodjs/web'
 
 import {
   FieldsFor,
-  FormFor,
+  FormWith,
   HiddenField,
   Label,
   TextField,
@@ -37,39 +39,48 @@ const ArrayPage = () => {
 
       <h1>Nested Array Form</h1>
 
-      {/* try `remote={false}` */}
-      <FormFor
-        action="/.redwood/functions/form"
-        className="form"
-        model={doctor}
-      >
-        <h2>Doctor</h2>
-        <HiddenField name="id" />
+      <div className="flex items-start">
+        <div className="mt-12 w-1/2  p-2">
+          <pre className="rounded bg-white p-2 text-xs">
+            {jsonFormat(doctor, { type: 'space', size: 2 })}
+          </pre>
+        </div>
 
-        <Label name="name" />
-        <TextField name="name" />
-
-        <Label name="specialty" />
-        <TextField name="specialty" />
-
-        <h2>Patients</h2>
-        {doctor.patients.map((patient, index) => (
-          <FieldsFor
-            model={patient}
-            index={patient.id}
-            key={index}
-            className="fields"
+        <div className="w-1/2">
+          <FormWith
+            url="/.redwood/functions/form"
+            className="form"
+            model={doctor}
           >
+            <h2>Doctor</h2>
+            <HiddenField name="id" />
+
             <Label name="name" />
             <TextField name="name" />
 
-            <Label name="dob" />
-            <TextField name="dob" />
-          </FieldsFor>
-        ))}
+            <Label name="specialty" />
+            <TextField name="specialty" />
 
-        <Submit>Save</Submit>
-      </FormFor>
+            <h2>Patients</h2>
+            {doctor.patients.map((patient, index) => (
+              <FieldsFor
+                model={patient}
+                index={patient.id}
+                key={index}
+                className="fields"
+              >
+                <Label name="name" />
+                <TextField name="name" />
+
+                <Label name="dob" />
+                <TextField name="dob" />
+              </FieldsFor>
+            ))}
+
+            <Submit>Save</Submit>
+          </FormWith>
+        </div>
+      </div>
     </>
   )
 }

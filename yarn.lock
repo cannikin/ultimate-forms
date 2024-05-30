@@ -14167,6 +14167,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json-format@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "json-format@npm:1.0.1"
+  checksum: 10c0/7c7fcf4dd615ae1595c8427079dcda68346b0a546774f70aea5a7e44a0617d275e08bcbd9d5745e8d0fddeb65b3f4626af4e5a460e7104aced688c15f9dbffe1
+  languageName: node
+  linkType: hard
+
 "json-parse-better-errors@npm:^1.0.2":
   version: 1.0.2
   resolution: "json-parse-better-errors@npm:1.0.2"
@@ -20802,6 +20809,7 @@ __metadata:
     "@types/react-dom": "npm:^18.2.19"
     autoprefixer: "npm:^10.4.19"
     change-case-all: "npm:^2.1.0"
+    json-format: "npm:^1.0.1"
     postcss: "npm:^8.4.38"
     postcss-loader: "npm:^8.1.1"
     react: "npm:18.2.0"
