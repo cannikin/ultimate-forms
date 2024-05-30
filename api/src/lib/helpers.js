@@ -8,7 +8,9 @@ export const toParams = (urlEncodedString) => {
   // URLSearchParams to parse the form string—each key in the array syntax will
   // override the previous one since the names are identical. Manually parse:
   // "doctor[phone][]=123-456-7890" => [ [ "doctor[phone][]", "123-456-7890" ] ]
-  const searchParams = decodeURI(urlEncodedString)
+  const searchParams = decodeURIComponent(
+    (urlEncodedString + '').replace(/\+/g, '%20')
+  )
     .split('&')
     .map((pair) => pair.split('='))
 

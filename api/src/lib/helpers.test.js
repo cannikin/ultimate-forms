@@ -50,10 +50,12 @@ describe('toParams', () => {
   })
 
   it('parses array syntax attributes into params', async () => {
-    const data = 'doctor[phone][]=123-456-7890&doctor[phone][]=098-765-4321'
+    const data =
+      'doctor[name]=Dr.+John+Doe&doctor[phone][]=123-456-7890&doctor[phone][]=098-765-4321'
 
     expect(toParams(data)).toEqual({
       doctor: {
+        name: 'Dr. John Doe',
         phone: ['123-456-7890', '098-765-4321'],
       },
     })
