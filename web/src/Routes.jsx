@@ -16,6 +16,7 @@ const Routes = () => {
     <Router>
       <Set wrap={MainLayout}>
         <Route path="/complex" page={ComplexPage} name="complex" />
+        <Route path="/array2" page={Array2Page} name="array2" />
         <Route path="/array" page={ArrayPage} name="array" />
         <Route path="/nested" page={NestedPage} name="nested" />
         <Route path="/simple" page={SimplePage} name="simple" />
