@@ -1,19 +1,20 @@
 import { toParams } from './helpers'
 
 describe('toParams', () => {
-  it.only('parses simple 1-level attributes into nested params', async () => {
+  it('parses simple 1-level attributes into nested params', async () => {
     const data = [
       'doctor[name]=Dr.+John+Doe',
       'doctor[specialty]=Cardiology',
     ].join('&')
     const output = toParams(data)
+    console.info(output)
 
     expect(output).toEqual({
       doctor: { name: 'Dr. John Doe', specialty: 'Cardiology' },
     })
   })
 
-  it.only('parses multiple top-level keys', async () => {
+  it('parses multiple top-level keys', async () => {
     const data = ['doctor[name]=Dr.+John+Doe', 'patient[name]=Jane+Doe'].join(
       '&'
     )
@@ -25,7 +26,7 @@ describe('toParams', () => {
     })
   })
 
-  it.only('parses 2-level deep attributes into nested params', async () => {
+  it('parses 2-level deep attributes into nested params', async () => {
     const data = [
       'doctor[name][first]=John',
       'doctor[name][last]=Doe',
@@ -41,7 +42,7 @@ describe('toParams', () => {
     })
   })
 
-  it.only('parses 3-level deep attributes into nested params', async () => {
+  it('parses 3-level deep attributes into nested params', async () => {
     const data = [
       'doctor[name][first]=John',
       'doctor[name][last]=Doe',
@@ -66,7 +67,7 @@ describe('toParams', () => {
     })
   })
 
-  it('parses array syntax attributes into params', async () => {
+  it.only('parses array syntax attributes into params', async () => {
     const data = [
       'doctor[name]=Dr.+John+Doe',
       'doctor[phone][]=123-456-7890',

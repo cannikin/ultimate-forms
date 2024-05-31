@@ -4,7 +4,7 @@
 //  results in `current` => { doctor: { name: { first: 'John' } } }
 
 const parseParam = (root, keys, value, level = 0) => {
-  const currentObject = root
+  const currentObject = JSON.parse(JSON.stringify(root))
 
   const log = (msg) =>
     console.info(`${' '.repeat(level * 8)}${msg}`, currentObject, keys, value)
@@ -16,10 +16,17 @@ const parseParam = (root, keys, value, level = 0) => {
       currentObject[key] = {}
     }
 
-    parseParam(currentObject[key], keys.slice(1), value, level + 1)
+    currentObject[key] = parseParam(
+      currentObject[key],
+      keys.slice(1),
+      value,
+      level + 1
+    )
   } else {
     currentObject[key] = value
   }
+
+  return currentObject
 }
 
 // Converts a www-form-urlencoded string into a nested object:
@@ -41,7 +48,7 @@ export const toParams = (urlEncodedString) => {
   const result = {}
   for (let [key, value] of searchParams) {
     const keyNameParts = key.split('[').map((k) => k.replace(']', ''))
-    parseParam(result, keyNameParts, value)
+    Object.assign(result, parseParam(result, keyNameParts, value))
   }
 
   return result
