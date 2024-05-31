@@ -1,27 +1,39 @@
 import { toParams } from './helpers'
 
 describe('toParams', () => {
-  it('parses simple 1-level attributes into nested params', async () => {
-    const data = 'doctor[name]=Dr. John Doe&doctor[specialty]=Cardiology'
+  it.only('parses simple 1-level attributes into nested params', async () => {
+    const data = [
+      'doctor[name]=Dr.+John+Doe',
+      'doctor[specialty]=Cardiology',
+    ].join('&')
+    const output = toParams(data)
 
-    expect(toParams(data)).toEqual({
+    expect(output).toEqual({
       doctor: { name: 'Dr. John Doe', specialty: 'Cardiology' },
     })
   })
 
-  it('parses multiple top-level keys', async () => {
-    const data = 'doctor[name]=Dr. John Doe&patient[name]=Jane Doe'
+  it.only('parses multiple top-level keys', async () => {
+    const data = ['doctor[name]=Dr.+John+Doe', 'patient[name]=Jane+Doe'].join(
+      '&'
+    )
+    const output = toParams(data)
 
-    expect(toParams(data)).toEqual({
+    expect(output).toEqual({
       doctor: { name: 'Dr. John Doe' },
       patient: { name: 'Jane Doe' },
     })
   })
 
-  it('parses 2-level deep attributes into nested params', async () => {
-    const data =
-      'doctor[name][first]=John&doctor[name][last]=Doe&doctor[specialty]=Cardiology'
-    expect(toParams(data)).toEqual({
+  it.only('parses 2-level deep attributes into nested params', async () => {
+    const data = [
+      'doctor[name][first]=John',
+      'doctor[name][last]=Doe',
+      'doctor[specialty]=Cardiology',
+    ].join('&')
+    const output = toParams(data)
+
+    expect(output).toEqual({
       doctor: {
         name: { first: 'John', last: 'Doe' },
         specialty: 'Cardiology',
@@ -29,11 +41,16 @@ describe('toParams', () => {
     })
   })
 
-  it('parses 3-level deep attributes into nested params', async () => {
-    const data =
-      'doctor[name][first]=John&doctor[name][last]=Doe&doctor[location][home][city]=San Diego&doctor[specialty]=Cardiology'
+  it.only('parses 3-level deep attributes into nested params', async () => {
+    const data = [
+      'doctor[name][first]=John',
+      'doctor[name][last]=Doe',
+      'doctor[location][home][city]=San+Diego',
+      'doctor[specialty]=Cardiology',
+    ].join('&')
+    const output = toParams(data)
 
-    expect(toParams(data)).toEqual({
+    expect(output).toEqual({
       doctor: {
         name: {
           first: 'John',
@@ -50,13 +67,64 @@ describe('toParams', () => {
   })
 
   it('parses array syntax attributes into params', async () => {
-    const data =
-      'doctor[name]=Dr.+John+Doe&doctor[phone][]=123-456-7890&doctor[phone][]=098-765-4321'
+    const data = [
+      'doctor[name]=Dr.+John+Doe',
+      'doctor[phone][]=123-456-7890',
+      'doctor[phone][]=098-765-4321',
+    ].join('&')
 
     expect(toParams(data)).toEqual({
       doctor: {
         name: 'Dr. John Doe',
         phone: ['123-456-7890', '098-765-4321'],
+      },
+    })
+  })
+
+  it('parses nested objects and arrays in the same string', () => {
+    const data = [
+      'doctor[name]=John',
+      'doctor[specialty]=Cardiology',
+      'doctor[phone][]=123-123-1234',
+      'doctor[phone][]=234-234-2345',
+      'doctor[patient][123][name]=Sarah',
+      'doctor[patient][234][name]=Bob',
+    ].join('&')
+
+    expect(toParams(data)).toEqual({
+      doctor: {
+        name: 'John',
+        specialty: 'Cardiology',
+        phone: ['123-123-1234', '234-234-2345'],
+        patient: {
+          123: {
+            name: 'Sarah',
+          },
+          234: {
+            name: 'Bob',
+          },
+        },
+      },
+    })
+  })
+
+  it('parses arrays of objects', () => {
+    // Example usage:
+    const data = [
+      'doctor[patient][][name]=Sarah',
+      'doctor[patient][][name]=Bob',
+    ].join('&')
+
+    expect(toParams(data)).toEqual({
+      doctor: {
+        patient: [
+          {
+            name: 'Sarah',
+          },
+          {
+            name: 'Bob',
+          },
+        ],
       },
     })
   })
