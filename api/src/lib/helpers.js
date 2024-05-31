@@ -12,17 +12,15 @@ const parseParam = (root, keys, value, level = 0) => {
   const key = keys[0]
 
   if (keys[1]) {
-    if (!currentObject[key]) {
-      currentObject[key] = {}
-    }
-
+    // there are more keys after this one, recurse and parse those
     currentObject[key] = parseParam(
-      currentObject[key],
+      currentObject[key] || {},
       keys.slice(1),
       value,
       level + 1
     )
   } else {
+    // we're at the end of the line, set the value
     currentObject[key] = value
   }
 
@@ -44,12 +42,12 @@ export const toParams = (urlEncodedString) => {
     .map((pair) => pair.split('='))
 
   // Loop through each key-value pair: ['doctor[name][first]', 'doctor[name][last]']
-  // And add the parsed object into our result
-  const result = {}
+  // And merge the parsed key/value object into the output
+  const output = {}
   for (let [key, value] of searchParams) {
     const keyNameParts = key.split('[').map((k) => k.replace(']', ''))
-    Object.assign(result, parseParam(result, keyNameParts, value))
+    Object.assign(output, parseParam(output, keyNameParts, value))
   }
 
-  return result
+  return output
 }
