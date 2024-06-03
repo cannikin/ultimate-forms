@@ -15,9 +15,10 @@ const Routes = () => {
   return (
     <Router>
       <Set wrap={MainLayout}>
+        <Route path="/array-of-objects" page={ArrayOfObjectsPage} name="arrayOfObjects" />
         <Route path="/complex" page={ComplexPage} name="complex" />
-        <Route path="/array2" page={Array2Page} name="array2" />
         <Route path="/array" page={ArrayPage} name="array" />
+        <Route path="/multiple-nested" page={MultipleNestedPage} name="multipleNested" />
         <Route path="/nested" page={NestedPage} name="nested" />
         <Route path="/simple" page={SimplePage} name="simple" />
         <Route path="/" page={HomePage} name="home" />

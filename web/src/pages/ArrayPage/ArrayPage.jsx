@@ -3,7 +3,6 @@ import jsonFormat from 'json-format'
 import { Metadata } from '@redwoodjs/web'
 
 import {
-  FieldsFor,
   FormWith,
   HiddenField,
   Label,
@@ -16,20 +15,7 @@ const doctor = {
   id: 10101,
   name: 'Dr. John Doe',
   specialty: 'Cardiology',
-  patients: [
-    {
-      className: 'Patient',
-      id: 123,
-      name: 'Jane Doe',
-      dob: '01/01/1980',
-    },
-    {
-      className: 'Patient',
-      id: 456,
-      name: 'Jeff Generic',
-      dob: '01/01/1970',
-    },
-  ],
+  phone: ['123-456-7890', '098-765-4321'],
 }
 
 const ArrayPage = () => {
@@ -37,7 +23,7 @@ const ArrayPage = () => {
     <>
       <Metadata title="Array" description="Array page" />
 
-      <h1>Nested Array Form</h1>
+      <h1>Array Elements Form</h1>
 
       <div className="flex items-start">
         <div className="mt-12 w-1/2  p-2">
@@ -61,20 +47,11 @@ const ArrayPage = () => {
             <Label name="specialty" />
             <TextField name="specialty" />
 
-            <h2>Patients</h2>
-            {doctor.patients.map((patient, index) => (
-              <FieldsFor
-                model={patient}
-                index={patient.id}
-                key={index}
-                className="fields"
-              >
-                <Label name="name" />
-                <TextField name="name" />
-
-                <Label name="dob" />
-                <TextField name="dob" />
-              </FieldsFor>
+            {doctor.phone.map((phone, index) => (
+              <div key={index}>
+                <Label name="phone[]" label={`Phone ${index + 1}`} />
+                <TextField name="phone[]" defaultValue={phone} />
+              </div>
             ))}
 
             <Submit>Save</Submit>

@@ -13,13 +13,16 @@ const MainLayout = ({ children }) => {
               <Link to={routes.nested()}>Nested Form</Link>
             </li>
             <li>
-              <Link to={routes.array()}>Nested Array Form</Link>
+              <Link to={routes.multipleNested()}>Nested Array Form</Link>
             </li>
             <li>
-              <Link to={routes.array2()}>Array Element Form</Link>
+              <Link to={routes.array()}>Array Element Form</Link>
             </li>
             <li>
               <Link to={routes.complex()}>Complex Form</Link>
+            </li>
+            <li>
+              <Link to={routes.arrayOfObjects()}>Array of Objects Form</Link>
             </li>
           </ul>
         </nav>

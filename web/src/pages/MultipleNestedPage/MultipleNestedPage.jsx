@@ -3,6 +3,7 @@ import jsonFormat from 'json-format'
 import { Metadata } from '@redwoodjs/web'
 
 import {
+  FieldsFor,
   FormWith,
   HiddenField,
   Label,
@@ -15,15 +16,28 @@ const doctor = {
   id: 10101,
   name: 'Dr. John Doe',
   specialty: 'Cardiology',
-  phone: ['123-456-7890', '098-765-4321'],
+  patients: [
+    {
+      className: 'Patient',
+      id: 123,
+      name: 'Jane Doe',
+      dob: '01/01/1980',
+    },
+    {
+      className: 'Patient',
+      id: 456,
+      name: 'Jeff Generic',
+      dob: '01/01/1970',
+    },
+  ],
 }
 
-const Array2Page = () => {
+const MultipleNestedPage = () => {
   return (
     <>
       <Metadata title="Array" description="Array page" />
 
-      <h1>Array Elements Form</h1>
+      <h1>Nested Array Form</h1>
 
       <div className="flex items-start">
         <div className="mt-12 w-1/2  p-2">
@@ -47,11 +61,20 @@ const Array2Page = () => {
             <Label name="specialty" />
             <TextField name="specialty" />
 
-            {doctor.phone.map((phone, index) => (
-              <div key={index}>
-                <Label name="phone[]" label={`Phone ${index + 1}`} />
-                <TextField name="phone[]" defaultValue={phone} />
-              </div>
+            <h2>Patients</h2>
+            {doctor.patients.map((patient, index) => (
+              <FieldsFor
+                model={patient}
+                index={patient.id}
+                key={index}
+                className="fields"
+              >
+                <Label name="name" />
+                <TextField name="name" />
+
+                <Label name="dob" />
+                <TextField name="dob" />
+              </FieldsFor>
             ))}
 
             <Submit>Save</Submit>
@@ -62,4 +85,4 @@ const Array2Page = () => {
   )
 }
 
-export default Array2Page
+export default MultipleNestedPage
