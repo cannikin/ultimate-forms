@@ -81,7 +81,7 @@ describe('toParams', () => {
     })
   })
 
-  it.skip('parses nested objects and arrays in the same string', () => {
+  it('parses nested objects and arrays in the same string', () => {
     const data = [
       'doctor[name]=John',
       'doctor[specialty]=Cardiology',
@@ -108,7 +108,7 @@ describe('toParams', () => {
     })
   })
 
-  it.skip('parses arrays of objects', () => {
+  it('parses arrays of objects with single keys', () => {
     // Example usage:
     const data = [
       'doctor[patient][][name]=Sarah',
@@ -123,6 +123,60 @@ describe('toParams', () => {
           },
           {
             name: 'Bob',
+          },
+        ],
+      },
+    })
+  })
+
+  it('parses arrays of objects with multiple keys', () => {
+    // Example usage:
+    const data = [
+      'doctor[patient][][name]=Sarah',
+      'doctor[patient][][dob]=2020-01-01',
+      'doctor[patient][][name]=Bob',
+      'doctor[patient][][dob]=1990-02-03',
+    ].join('&')
+
+    console.info('toParams', toParams(data).doctor)
+
+    expect(toParams(data)).toEqual({
+      doctor: {
+        patient: [
+          {
+            name: 'Sarah',
+            dob: '2020-01-01',
+          },
+          {
+            name: 'Bob',
+            dob: '1990-02-03',
+          },
+        ],
+      },
+    })
+  })
+
+  it.only('throws an error when objects have a mixed bag of keys', () => {
+    // Example usage:
+    const data = [
+      'doctor[patient][][name]=Sarah',
+      'doctor[patient][][dob]=2020-01-01',
+      'doctor[patient][][name]=Bob',
+      'doctor[patient][][address]=Anytown USA',
+    ].join('&')
+
+    console.info('toParams', toParams(data).doctor)
+
+    expect(toParams(data)).toEqual({
+      doctor: {
+        patient: [
+          {
+            name: 'Sarah',
+            dob: '2020-01-01',
+          },
+          {
+            name: 'Bob',
+            dob: '1990-02-03',
           },
         ],
       },
