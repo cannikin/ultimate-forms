@@ -1,4 +1,4 @@
-import { toParams } from './helpers'
+import { ParamKeyCollectionNameError, toParams } from './helpers'
 
 describe('toParams', () => {
   it('parses simple 1-level attributes into nested params', async () => {
@@ -156,7 +156,7 @@ describe('toParams', () => {
     })
   })
 
-  it.only('throws an error when objects have a mixed bag of keys', () => {
+  it('throws an error when objects have a mixed bag of keys', () => {
     // Example usage:
     const data = [
       'doctor[patient][][name]=Sarah',
@@ -165,21 +165,6 @@ describe('toParams', () => {
       'doctor[patient][][address]=Anytown USA',
     ].join('&')
 
-    console.info('toParams', toParams(data).doctor)
-
-    expect(toParams(data)).toEqual({
-      doctor: {
-        patient: [
-          {
-            name: 'Sarah',
-            dob: '2020-01-01',
-          },
-          {
-            name: 'Bob',
-            dob: '1990-02-03',
-          },
-        ],
-      },
-    })
+    expect(() => toParams(data)).toThrow(ParamKeyCollectionNameError)
   })
 })
