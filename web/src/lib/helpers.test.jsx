@@ -1,4 +1,4 @@
-import { modelAndAttributeName, modelAndAttributeValue } from './formHelpers'
+import { modelAndAttributeName, modelAndAttributeValue } from './helpers'
 
 describe('modelAndAttributeToNameProp', () => {
   it('converts a model and attribute to a name prop', () => {

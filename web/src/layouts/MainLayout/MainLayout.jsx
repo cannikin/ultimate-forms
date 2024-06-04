@@ -19,10 +19,10 @@ const MainLayout = ({ children }) => {
               <Link to={routes.array()}>Array Element Form</Link>
             </li>
             <li>
-              <Link to={routes.complex()}>Complex Form</Link>
+              <Link to={routes.arrayOfObjects()}>Array of Objects Form</Link>
             </li>
             <li>
-              <Link to={routes.arrayOfObjects()}>Array of Objects Form</Link>
+              <Link to={routes.complex()}>Complex Form</Link>
             </li>
           </ul>
         </nav>

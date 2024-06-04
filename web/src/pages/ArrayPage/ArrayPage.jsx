@@ -8,7 +8,7 @@ import {
   Label,
   TextField,
   Submit,
-} from 'src/lib/formHelpers'
+} from 'src/lib/helpers'
 
 const doctor = {
   className: 'Doctor',

@@ -71,6 +71,7 @@ const parseParam = ({ root, keys, value }) => {
   const key = keys[0]
 
   if (keys[1] === '') {
+    // if the next key is empty then this key is mean to contain an array
     currentObject[key] = parseArray({ root: currentObject[key], keys, value })
   } else if (keys[1]) {
     // there are more keys after this one, recurse and parse those
@@ -88,8 +89,11 @@ const parseParam = ({ root, keys, value }) => {
 }
 
 // Converts a www-form-urlencoded string into a nested object:
+//
+// input:
 //   doctor[name][first]=John&doctor[name][last]=Doe&doctor[specialty]=Cardiology
-// to:
+//
+// output:
 //   { doctor: { name: { first: 'John', last: 'Doe' }, specialty: 'Cardiology' } }
 export const toParams = (urlEncodedString) => {
   // Turns URL encoded query string into an array of arrays:
@@ -101,7 +105,7 @@ export const toParams = (urlEncodedString) => {
     .map((pair) => pair.split('='))
 
   // Loop through each key-value pair: ['doctor[name][first]', 'doctor[name][last]']
-  // And merge the parsed key/value object into the output
+  // and merge the parsed key/value object into the output
   let output = {}
   for (let [key, value] of searchParams) {
     const keyNameParts = key.split('[').map((k) => k.replace(']', ''))

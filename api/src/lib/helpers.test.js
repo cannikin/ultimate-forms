@@ -138,8 +138,6 @@ describe('toParams', () => {
       'doctor[patient][][dob]=1990-02-03',
     ].join('&')
 
-    console.info('toParams', toParams(data).doctor)
-
     expect(toParams(data)).toEqual({
       doctor: {
         patient: [

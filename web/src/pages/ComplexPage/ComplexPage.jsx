@@ -2,13 +2,7 @@ import jsonFormat from 'json-format'
 
 import { Metadata } from '@redwoodjs/web'
 
-import {
-  FieldsFor,
-  FormWith,
-  Label,
-  TextField,
-  Submit,
-} from 'src/lib/formHelpers'
+import { FieldsFor, FormWith, Label, TextField, Submit } from 'src/lib/helpers'
 
 const doctor = {
   className: 'Doctor',
