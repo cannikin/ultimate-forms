@@ -5,7 +5,7 @@ const MainLayout = ({ children }) => {
     <>
       <header className="mb-8">
         <nav>
-          <ul className="flex items-start space-x-8">
+          <ul className="flex items-start justify-between text-xs">
             <li>
               <Link to={routes.simple()}>Simple Form</Link>
             </li>
